@@ -1,2 +1,7 @@
 # RMACC_2015_OpenMP
-Code to support the Introduction to OpenMP
+
+This repository contains the code to support the following
+tutorials of the 2015 RMACC HPC Symposium.
+
+* OpenMP
+
