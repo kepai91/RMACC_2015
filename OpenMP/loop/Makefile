@@ -4,8 +4,10 @@
 
 include ../rules.inc
 
-EXES = thread_num_c \
-       thread_num_f
+EXES = for   \
+       total \
+       first \
+       last
 
 all: $(EXES)
 

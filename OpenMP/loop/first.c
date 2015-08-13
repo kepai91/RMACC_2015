@@ -16,19 +16,29 @@
  *
  */
 
+
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <omp.h>
+#include <err.h>
+#include <sysexits.h>
+
+#define ALIGNMENT 64
 
 int
 main(int argc, char **argv)
 {
+	int i = 0;
 
-#pragma omp parallel
+	i = 10;
+#pragma omp parallel      \
+            default(none) \
+            firstprivate(i)
 {
-        printf("Hello world! From thread %d\n",
-                omp_get_thread_num());
-} /* End omp parallel */
-
+	int id = omp_get_thread_num();
+	i += id;
+	printf("id: %d\ti: %d\n", id, i);
+}
         return(EXIT_SUCCESS);
 }

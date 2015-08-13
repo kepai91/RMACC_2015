@@ -16,19 +16,42 @@
  *
  */
 
+
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <omp.h>
+#include <err.h>
+#include <sysexits.h>
+
+#define ALIGNMENT 64
 
 int
 main(int argc, char **argv)
 {
+	int ierr = 0;
+	int i = 0;
+	int n = 10000;
+	int t = 0;
+	int *x = NULL;
 
-#pragma omp parallel
-{
-        printf("Hello world! From thread %d\n",
-                omp_get_thread_num());
-} /* End omp parallel */
+	ierr = posix_memalign((void **)&x, ALIGNMENT, n * sizeof(int));
+	if (ierr) {
+		err(ierr, "Unable to allocate: %ld", n * sizeof(int));
+	}
+	memset(x, 1, n * sizeof(int));
+	printf("%d\t%d\n", x[0], x[1]);
+
+#pragma omp parallel for  \
+            default(none) \
+            shared(x, n)  \
+            private(i)    \
+            reduction(+:t)
+	for (i=0; i < n; ++i) {
+		t += x[i];
+	}
+
+	printf("Total was: %d\n", t);
 
         return(EXIT_SUCCESS);
 }

@@ -4,8 +4,8 @@
 
 include ../rules.inc
 
-EXES = thread_num_c \
-       thread_num_f
+EXES = simd_c \
+       simd_f
 
 all: $(EXES)
 
